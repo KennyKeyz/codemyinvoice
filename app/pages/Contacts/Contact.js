@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {observer} from 'mobx-react';
+import {observer,inject} from 'mobx-react';
 
 import {Link} from 'react-router-3';
 
@@ -9,7 +9,7 @@ import styles from './Contact.sass';
 
 
 
-@observer(['contacts'])
+@inject('contacts') @observer
 class Contact extends React.Component {
 
   removeContact = (e) => {

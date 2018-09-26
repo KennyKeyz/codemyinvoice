@@ -11,15 +11,16 @@ class Contacts {
   @observable isLoading = false;
 
   @action async fetchAll(){
-  
-    this.isLoading = false;
+
+    this.isLoading = true;
     const response = await Api.get(this.path);
 
     const status = await response.status;
 
     if (status === 200){
-      console.log(status);
-      this.all = await response.json();
+      const json = await response.json();
+      this.all = await json.data;
+      this.isLoading = false;
     }
 
   }
@@ -43,11 +44,16 @@ class Contacts {
     );
   }
 
-  @action remove(contactId) {
-    const existing = this.all;
-    this.all = existing.filter(
-      c => c.id !== contactId
-    );
+  @action async remove(contactId) {
+    this.isLoading = true;
+    const response = await Api.delete(`${this.path}/${contactId}`);
+    const status =  await response.status;
+
+    if(status === 200){
+      this.isLoading = false;
+      this.fetchAll();
+    }
+
 
   }
 

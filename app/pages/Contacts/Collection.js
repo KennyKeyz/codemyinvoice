@@ -1,6 +1,8 @@
 import React from 'react';
 
 
+import Spinner from 'components/Spinner';
+
 
 import Contact from './Contact';
 
@@ -59,6 +61,11 @@ class Layout extends React.Component {
 
 
   render() {
+    const {all, isLoading} = this.props.contacts;
+
+    if (isLoading){
+      return <Spinner />;
+    }
     return(
 
     	 <div id='Collection' className={styles.main}>
@@ -67,7 +74,7 @@ class Layout extends React.Component {
 
     	   <div  className='pure-g'>
         {
-          this.props.contacts.all.slice().map(info =>
+          all.slice().map(info =>
 
            <Contact key={info.id} {...info}  />
 
